@@ -1,0 +1,27 @@
+[{
+  "_id": {
+    "$oid": "67778611df62bec83d0cfb7c"
+  },
+  "username": "Gopika",
+  "password": "user@123",
+  "email": "user1@gmail.com",
+  "role": "user"
+},
+{
+  "_id": {
+    "$oid": "67778611df62bec83d0cfb7b"
+  },
+  "username": "admin1",
+  "password": "admin@123",
+  "email": "admin123@gmail.com",
+  "role": "admin"
+},
+{
+  "_id": {
+    "$oid": "6777f64da88720ec4fc31555"
+  },
+  "username": "Akar",
+  "password": "akar@123",
+  "role": "user",
+  "email": "user@gmail.com"
+}]

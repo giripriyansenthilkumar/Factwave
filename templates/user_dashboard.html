@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broadcaster Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_dashboard.css') }}">
+    <script src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/user_dashboard.js') }}" defer></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Floating Notification Container -->
+        <div id="notification-container" class="notification-container"></div>
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <h1>Broadcaster Dashboard</h1>
+                <div class="profile-icon" onclick="window.location.href='/profile'">
+                    <img src="{{ url_for('static', filename='images/profile.jpeg') }}" alt="Profile">
+                </div>
+            </div>
+            <p class="welcome-message">Welcome, <span class="username">{{ session['username'] }}</span>!</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main container">
+            <!-- Panel 1: Transcription -->
+            <div class="panel1 card">
+                <h2>Transcription</h2>
+                <div id="live-transcription-content" aria-live="polite">
+                    <p id="transcription-text">Listening...</p>
+                </div>
+                <div>
+                    <div class="toggle" id="transcription-toggle" onclick="toggleTranscriptionMode()"></div>
+                    <p>Current Mode: <span id="transcription-mode">Microphone</span></p>
+                </div>
+                <div class="transcription-buttons">
+                    <button id="start-btn" class="btn" onclick="startTranscription()" aria-label="Start Transcription">▶ Start</button>
+                    <button id="pause-btn" class="btn" onclick="togglePauseResume()" style="display: none;" aria-label="Pause Transcription">⏸ Pause</button>
+                    <button id="stop-btn" class="btn" onclick="stopTranscription()" style="display: none;" aria-label="Stop Transcription">⏹ Stop</button>
+                </div>
+                <div class="final-transcription">
+                    <h3>Final Transcription</h3>
+                    <p id="final-transcription-text">No transcription saved yet.</p>
+                </div>
+            </div>
+
+            <!-- Panel 2: All Facts -->
+            <div class="panel2 card">
+                <div class="panel-header">
+                    <h2>All Facts</h2>
+                    <button id="clear-all-btn" class="btn small-btn" onclick="clearAllFacts()">Clear All</button>
+                </div>
+                <ul id="all-facts-list">
+                    <p>Loading facts...</p>
+                </ul>
+            </div>
+
+            <!-- Panel 3: Alerts Notifications -->
+            <div class="panel3 card">
+                <h2>Alert Notifications</h2>
+                <div id="alerts-section">
+                    <p>Loading alerts...</p>
+                </div>
+            </div>
+
+            <!-- Panel 4: Check Text -->
+            <div class="panel4 card small-panel" onclick="redirectToTextFact()">
+                <h2>Check Fact</h2>
+                <p>Through text</p>
+            </div>
+
+            <!-- Panel 5: Search -->
+            <div class="panel5 card small-panel" onclick="redirectToSearchPage()">
+                <img src="{{ url_for('static', filename='images/search.png') }}" alt="Search Icon" class="panel2-image">
+                <h2>Search Facts</h2>
+            </div>
+
+            <!-- Panel 6: Resolved Alerts -->
+            <div class="panel6 card">
+                <div class="panel-header">
+                    <h2>Resolved Alerts</h2>
+                    <button id="clear-resolved-btn" class="btn small-btn" onclick="clearResolvedAlerts()">Clear All</button>
+                </div>
+                <ul id="resolved-alerts-list">
+                    <p>Loading resolved alerts...</p>
+                </ul>
+            </div>
+
+            
+        </main>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/user_dashboard.js') }}"></script>
+    <script>
+        function showNotification(message, type = 'success') {
+            const notificationContainer = document.getElementById('notification-container');
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerText = message;
+
+            notificationContainer.appendChild(notification);
+
+            // Automatically remove the notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        async function resolveAlert(alertId) {
+            try {
+                const response = await fetch(`/api/resolve_alert/${alertId}`, { method: 'PUT' });
+                if (response.ok) {
+                    fetchAlerts();
+                    fetchResolvedAlerts();
+                } else {
+                    showNotification('Failed to resolve alert.', 'error');
+                }
+            } catch (error) {
+                console.error('Error resolving alert:', error);
+                showNotification('Error resolving alert.', 'error');
+            }
+        }
+
+        async function fetchAlerts() {
+            const response = await fetch('/api/alerts');
+            const alerts = await response.json();
+
+            const alertsSection = document.getElementById('alerts-section');
+            alertsSection.innerHTML = alerts.length ? '' : '<p>No alerts yet.</p>';
+
+            alerts.forEach(alert => {
+                if (alert.fact_status === "Unverified") {  // Display only unverified facts
+                    const alertDiv = document.createElement('div');
+                    alertDiv.classList.add('alert-item');
+                    alertDiv.innerHTML = `
+                        <p><strong>${alert.full_text}</strong> - Status: ${alert.fact_status}</p>
+                        <button class="resolve-btn" onclick="resolveAlert('${alert._id}')">Resolve</button>
+                    `;
+                    alertsSection.appendChild(alertDiv);
+                }
+            });
+        }
+
+        async function fetchResolvedAlerts() {
+            const response = await fetch('/api/resolved_alerts');
+            const resolvedAlerts = await response.json();
+
+            const resolvedSection = document.getElementById('resolved-alerts-list');
+            resolvedSection.innerHTML = resolvedAlerts.length ? '' : '<p>No resolved alerts yet.</p>';
+
+            resolvedAlerts.forEach(alert => {
+                if (alert.fact_status === "Unverified") {  // Display only unverified facts
+                    const alertItem = document.createElement('li');
+                    alertItem.innerHTML = `
+                        <p><strong>${alert.full_text}</strong></p>
+                        <p><strong>Resolved Type:</strong> ${alert.match_type}</p>
+                    `;
+                    resolvedSection.appendChild(alertItem);
+                }
+            });
+        }
+
+        async function fetchFacts() {
+            const response = await fetch('/api/facts');
+            const facts = await response.json();
+
+            const factStatusDiv = document.getElementById('fact-status-list');
+            factStatusDiv.innerHTML = facts.length ? '' : '<p>No facts available.</p>';
+
+            facts.forEach(fact => {
+                const factItem = document.createElement('li');
+                factItem.innerHTML = `
+                    <p><strong>${fact.full_text}</strong></p>
+                    <p><strong>Status:</strong> ${fact.fact_status}</p>
+                    <p><strong>Resolved:</strong> ${fact.resolve}</p>
+                `;
+                factStatusDiv.appendChild(factItem);
+            });
+        }
+
+        async function fetchAllFacts() {
+            try {
+                const response = await fetch('/api/all_facts');
+                const allFacts = await response.json();
+
+                const factsList = document.getElementById('all-facts-list');
+                factsList.innerHTML = allFacts.length ? '' : '<p>No facts available.</p>';
+
+                allFacts.forEach(fact => {
+                    const factItem = document.createElement('li');
+                    factItem.innerHTML = `
+                        <p><strong>Fact:</strong> ${fact.full_text || 'N/A'}</p>
+                        <p><strong>Status:</strong> ${fact.fact_status || 'Unverified'}</p>
+                        <p><strong>Timestamp:</strong> ${fact.timestamp ? new Date(fact.timestamp).toLocaleString() : 'N/A'}</p>
+                    `;
+                    factsList.appendChild(factItem);
+                });
+            } catch (error) {
+                console.error('Error fetching all facts:', error);
+                const factsList = document.getElementById('all-facts-list');
+                factsList.innerHTML = '<p>Error loading facts. Please try again later.</p>';
+            }
+        }
+
+        async function fetchUserFacts() {
+            try {
+                const response = await fetch('/api/user_facts');
+                const userFacts = await response.json();
+
+                const factsList = document.getElementById('all-facts-list');
+                factsList.innerHTML = userFacts.length ? '' : '<p>No facts available.</p>';
+
+                userFacts.forEach(fact => {
+                    const factItem = document.createElement('li');
+                    factItem.innerHTML = `
+                        <p><strong>Fact:</strong> ${fact.full_text || 'N/A'}</p>
+                        <p><strong>Status:</strong> ${fact.fact_status || 'Unverified'}</p>
+                        <p><strong>Timestamp:</strong> ${fact.timestamp ? new Date(fact.timestamp).toLocaleString() : 'N/A'}</p>
+                    `;
+                    factsList.appendChild(factItem);
+                });
+            } catch (error) {
+                console.error('Error fetching user facts:', error);
+                const factsList = document.getElementById('all-facts-list');
+                factsList.innerHTML = '<p>Error loading facts. Please try again later.</p>';
+            }
+        }
+
+        async function submitFact(event) {
+            event.preventDefault();
+            const factInput = document.getElementById('fact-input').value;
+
+            try {
+                const response = await fetch('/check-fact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fact: factInput })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    showNotification(result.message, 'success');
+                    fetchAlerts();
+                    fetchResolvedAlerts();
+                } else {
+                    const error = await response.json();
+                    showNotification(error.error || 'Failed to check fact.', 'error');
+                }
+            } catch (error) {
+                console.error('Error checking fact:', error);
+                showNotification('Error checking fact.', 'error');
+            }
+        }
+
+        async function clearAllFacts() {
+            if (!confirm("Are you sure you want to clear all facts?")) return;
+
+            try {
+                const response = await fetch('/api/clear_user_facts', { method: 'DELETE' });
+                if (response.ok) {
+                    showNotification("All facts cleared successfully!", "success");
+                    fetchUserFacts(); // Refresh the facts list
+                } else {
+                    const error = await response.json();
+                    showNotification(error.error || "Failed to clear facts.", "error");
+                }
+            } catch (error) {
+                console.error("Error clearing facts:", error);
+                showNotification("Error clearing facts.", "error");
+            }
+        }
+
+        async function clearResolvedAlerts() {
+            if (!confirm("Are you sure you want to clear all resolved alerts?")) return;
+
+            try {
+                const response = await fetch('/api/clear_resolved_alerts', { method: 'DELETE' });
+                if (response.ok) {
+                    showNotification("All resolved alerts cleared successfully!", "success");
+                    fetchResolvedAlerts(); // Refresh the resolved alerts list
+                } else {
+                    const error = await response.json();
+                    showNotification(error.error || "Failed to clear resolved alerts.", "error");
+                }
+            } catch (error) {
+                console.error("Error clearing resolved alerts:", error);
+                showNotification("Error clearing resolved alerts.", "error");
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchAlerts();
+            fetchResolvedAlerts();
+            fetchFacts();
+            fetchAllFacts(); // Fetch all facts on page load
+            fetchUserFacts(); // Fetch user-specific facts on page load
+        });
+
+        function handlePanel1Click() {
+            console.log("Panel 1 clicked");
+            // Add your logic for Panel 1 click here
+        }
+
+        function redirectToTextFact() {
+            window.location.href = "/text_fact";
+        }
+
+        function redirectToSearchPage() {
+            window.location.href = "/search";
+        }
+    </script>
+</body>
+</html>

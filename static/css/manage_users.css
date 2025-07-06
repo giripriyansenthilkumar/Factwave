@@ -1,0 +1,111 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+/* General Styles */
+body {
+    font-family: 'Libre Baskerville', serif;
+    background: url('/static/images/admin_bg.jpg') no-repeat center center/cover;
+    background-color: #121212;
+    margin: 0;
+    padding: 0;
+    color: white;
+    text-align: center;
+}
+
+/* Manage Users Container */
+.manage-users-container {
+    width: 60%;
+    margin: 50px auto;
+    background: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    backdrop-filter: blur(10px); /* For Chrome, Edge, Firefox, etc. */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+h1, h2 {
+    color: #00ffff;
+    margin-bottom: 20px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 12px 20px;
+    background: linear-gradient(45deg, #00ffff, #0077ff);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(45deg, #0077ff, #00ffff);
+    box-shadow: 0px 0px 10px #00ffff;
+}
+
+/* User List */
+.user-list {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    margin: 5px 0;
+    border-radius: 5px;
+    color: white;
+}
+
+li span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+a {
+    color: #ff4444;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+a:hover {
+    color: #cc0000;
+    text-decoration: underline;
+}
+
+close-button {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    background: url('/static/images/close.png') no-repeat center center;
+    background-size: contain;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.close-button:hover {
+    transform: scale(1.2);
+}

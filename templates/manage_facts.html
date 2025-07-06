@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Facts - FactWave</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/manage_facts.css') }}">
+    <script src="{{ url_for('static', filename='js/manage_facts.js') }}" defer></script>
+</head>
+<body>
+    <a href="javascript:history.back()" class="close-button">
+        <img src="{{ url_for('static', filename='images/close.png') }}" alt="Close">
+    </a>
+    <div class="facts-container">
+        <h1>Manage Facts</h1>
+
+        <!-- Add Fact Form -->
+        <div class="add-fact">
+            <h2>Add Fact</h2>
+            <form id="addFactForm" method="POST" action="/add-fact">
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category" required>
+                
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+                
+                <button type="submit">Add Fact</button>
+            </form>
+        </div>
+
+        <!-- Upload CSV Form -->
+        <div class="upload-csv">
+            <h2>Upload Facts via CSV</h2>
+            <form id="uploadCsvForm" method="POST" action="/upload-csv" enctype="multipart/form-data">
+                <label for="csvFile">Choose CSV File:</label>
+                <input type="file" id="csvFile" name="csv_file" accept=".csv" required>
+                <button type="submit" id="uploadCsvButton">Upload</button>
+            </form>
+        </div>
+
+        <!-- Facts Table -->
+        <div class="facts-list">
+            <h2>Existing Facts</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Headlines</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fact in facts %}
+                    <tr>
+                        <td>{{ fact.category }}</td>
+                        <td>{{ fact.headline }}</td>
+                        <td>
+                            <button class="edit-button" onclick="editFact('{{ fact._id }}', '{{ fact.category }}', '{{ fact.headline}}')">Edit</button>
+                            <form method="POST" action="/delete-fact/{{ fact._id }}" class="inline-form">
+                                <button type="submit" class="delete-button">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Edit Fact Modal -->
+    <div id="editFactModal" class="modal">
+        <div class="modal-content">
+            <h2>Edit Fact</h2>
+            <form id="editFactForm" method="POST" action="/edit-fact">
+                <input type="hidden" id="editFactId" name="fact_id">
+                
+                <label for="editCategory">Category:</label>
+                <input type="text" id="editCategory" name="category" required>
+                
+                <label for="editDescription">Headlines:</label>
+                <textarea id="editDescription" name="headline" rows="4" required></textarea>
+                
+                <button type="submit">Save Changes</button>
+                <button type="button" class="close-modal" onclick="closeEditModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Display flash messages as notifications
+        const flashMessages = {{ get_flashed_messages(with_categories=true) | tojson }};
+        flashMessages.forEach(([category, message]) => {
+            showNotification(message, category === 'success' ? 'success' : 'error');
+        });
+    </script>
+</body>
+</html>

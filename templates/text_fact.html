@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Fact</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/text_fact.css') }}">
+</head>
+<body>
+    <div class="check-fact-container">
+        <!-- Section 1: Fact Input -->
+        <div class="fact-input-section">
+            <h1>Check Fact</h1>
+            <form id="check-fact-form" onsubmit="submitFact(event)">
+                <textarea id="fact-input" placeholder="Enter a fact to verify..." required></textarea>
+                <button type="submit" class="btn">Submit</button>
+            </form>
+            <div id="fact-status" class="fact-status"></div>
+        </div>
+
+        <!-- Section 2: All Facts -->
+        <div class="fact-list-section">
+            <h2>All Facts</h2>
+            <div class="fact-list-container">
+                <ul id="fact-list" class="fact-list">
+                    <!-- Facts will be dynamically populated here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function submitFact(event) {
+            event.preventDefault();
+            const factInput = document.getElementById('fact-input').value;
+
+            try {
+                const response = await fetch('/check-fact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fact: factInput })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    const factStatusDiv = document.getElementById('fact-status');
+                    factStatusDiv.innerHTML = `
+                        <p><strong>Status:</strong> ${result.fact_status.status}</p>
+                        <p><strong>Match Type:</strong> ${result.fact_status.match_type}</p>
+                        <p><strong>Matched Fact:</strong> ${result.fact_status.matched_fact || "N/A"}</p>
+                    `;
+                    fetchFacts(); // Refresh the fact list
+                } else {
+                    const error = await response.json();
+                    console.error('Error:', error.error || 'Failed to check fact.');
+                }
+            } catch (error) {
+                console.error('Error checking fact:', error);
+            }
+        }
+
+        async function fetchFacts() {
+            try {
+                const response = await fetch('/api/text_status');
+                const facts = await response.json();
+
+                const factList = document.getElementById('fact-list');
+                factList.innerHTML = ''; // Clear the list
+
+                facts.forEach(fact => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <p><strong>Fact:</strong> ${fact.text}</p>
+                        <p><strong>Status:</strong> ${fact.fact_status}</p>
+                        <p><strong>Match Type:</strong> ${fact.match_type}</p>
+                        <p><strong>Matched Fact:</strong> ${fact.matched_fact || "N/A"}</p>
+                    `;
+                    factList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Error fetching facts:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchFacts);
+    </script>
+</body>
+</html>

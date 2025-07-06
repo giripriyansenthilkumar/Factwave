@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - FactWave</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/settings.css') }}">
+    <script src="{{ url_for('static', filename='js/settings.js') }}" defer></script>
+</head>
+<body>
+    <div class="settings-wrapper">
+        <div class="settings-container">
+            <h1>Settings</h1>
+
+            <!-- Theme Settings -->
+            <div class="theme-settings">
+                <h2>Theme Settings</h2>
+                <label for="theme-select">Choose Theme:</label>
+                <select id="theme-select">
+                    <option value="light" {% if session['theme'] == 'light' %}selected{% endif %}>Light</option>
+                    <option value="dark" {% if session['theme'] == 'dark' %}selected{% endif %}>Dark</option>
+                </select>
+            </div>
+
+            <!-- Other Settings Sections -->
+
+            <!-- Save Button -->
+            <button type="submit" class="save-btn">Save Settings</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to change theme
+        function changeTheme() {
+            const theme = document.getElementById("theme").value;
+            if (theme === "light") {
+                document.body.classList.add("light-theme");
+                document.body.classList.remove("dark-theme");
+                sessionStorage.setItem("theme", "light"); // Store theme in sessionStorage
+            } else {
+                document.body.classList.add("dark-theme");
+                document.body.classList.remove("light-theme");
+                sessionStorage.setItem("theme", "dark"); // Store theme in sessionStorage
+            }
+        }
+
+        // Initialize the theme based on sessionStorage on page load
+        window.onload = function() {
+            const savedTheme = sessionStorage.getItem("theme");
+            if (savedTheme) {
+                // Apply the saved theme across all pages
+                if (savedTheme === "dark") {
+                    document.body.classList.add("dark-theme");
+                    document.body.classList.remove("light-theme");
+                    document.getElementById("theme").value = "dark";
+                } else {
+                    document.body.classList.add("light-theme");
+                    document.body.classList.remove("dark-theme");
+                    document.getElementById("theme").value = "light";
+                }
+            } else {
+                // Default to light theme if no theme is saved
+                document.body.classList.add("light-theme");
+                document.body.classList.remove("dark-theme");
+            }
+        }
+
+        document.getElementById('theme-select').addEventListener('change', async function () {
+            const selectedTheme = this.value;
+            try {
+                const response = await fetch('/update-theme', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ theme: selectedTheme })
+                });
+                if (response.ok) {
+                    alert('Theme updated successfully!');
+                    location.reload(); // Reload to apply the theme
+                } else {
+                    alert('Failed to update theme.');
+                }
+            } catch (error) {
+                console.error('Error updating theme:', error);
+                alert('An error occurred while updating the theme.');
+            }
+        });
+    </script>
+</body>
+</html>

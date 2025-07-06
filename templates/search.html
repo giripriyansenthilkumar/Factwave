@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Facts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_dashboard.css') }}">
+</head>
+<body>
+    <div class="search-container">
+        <h1>Search Verified Facts</h1>
+        <form id="search-form" class="search-form">
+            <label for="category">Category:</label>
+            <input type="text" id="category" name="category" placeholder="Enter category">
+            
+            <label for="keywords">Keywords (comma-separated):</label>
+            <input type="text" id="keywords" name="keywords" placeholder="Enter keywords">
+            
+            <button type="submit" class="btn">Search</button>
+        </form>
+
+        <div class="results-section">
+            <h2>Search Results</h2>
+            <div class="results-list-container">
+                <ul class="results-list"></ul>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+</body>
+</html>

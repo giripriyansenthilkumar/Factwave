@@ -1,0 +1,182 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+/* General Styles */
+body {
+    font-family: 'Libre Baskerville', serif;
+    background: url('/static/images/admin_bg.jpg') no-repeat center center/cover;
+    background-color: #121212;
+    margin: 0;
+    padding: 0;
+    color: white;
+    text-align: center;
+}
+
+/* Facts Container */
+.facts-container {
+    width: 80%;
+    margin: 50px auto;
+    background: hwb(0 100% 0% / 0.1);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    backdrop-filter: blur(10px); /* For Chrome, Edge, Firefox, etc. */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+h1, h2 {
+    color: #00ffff;
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    font-size: 16px;
+    color: #ddd;
+    margin-bottom: 5px;
+}
+
+input, textarea {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus, textarea:focus {
+    border-color: #00ffff;
+    box-shadow: 0 0 8px #00ffff;
+}
+
+button {
+    width: 40%;
+    padding: 12px;
+    background: linear-gradient(45deg, #00ffff, #0077ff);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: linear-gradient(45deg, #0077ff, #00ffff);
+    box-shadow: 0px 0px 10px #00ffff;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+thead {
+    background: rgba(0, 255, 255, 0.3);
+}
+
+td, th {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+    color: white;
+}
+
+/* Edit & Delete Buttons */
+.edit-button, .delete-button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.edit-button {
+    background: #0077ff;
+    color: white;
+    width: 80px;
+}
+
+.delete-button {
+    background: #ff4444;
+    color: white;
+    width: 100px;
+}
+
+.edit-button:hover {
+    background: #0055cc;
+}
+
+.delete-button:hover {
+    background: #cc0000;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    backdrop-filter: blur(10px);    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 50%;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.close-modal {
+    margin-top: 10px;
+    background: #ff4444;
+}
+
+.close-modal:hover {
+    background: #cc0000;
+}
+
+.close-button {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    background: url('/static/images/close.png') no-repeat center center;
+    background-size: contain;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.close-button:hover {
+    transform: scale(1.2);
+}

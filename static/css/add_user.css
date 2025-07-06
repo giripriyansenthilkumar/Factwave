@@ -1,0 +1,78 @@
+body {
+    font-family: 'Lemon Milk', sans-serif;
+    background: url('background.jpg') no-repeat center center/cover;
+    background-color: #0a0a0a;
+    margin: 0;
+    padding: 0;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.add-user-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0px 4px 10px rgba(0, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    width: 350px;
+}
+
+h1 {
+    color: #00ffff;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 8px;
+    color: white;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: 0px 0px 5px #00ffff;
+}
+
+button {
+    background: linear-gradient(45deg, #00ffff, #0077ff);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+    margin-top: 20px;
+    width: 100%;
+}
+
+button:hover {
+    background: linear-gradient(45deg, #0077ff, #00ffff);
+    box-shadow: 0px 0px 10px #00ffff;
+}
+
+.back-link {
+    margin-top: 15px;
+}
+
+.back-link a {
+    color: #00ffff;
+    text-decoration: none;
+}
+
+.back-link a:hover {
+    text-decoration: underline;
+}

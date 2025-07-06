@@ -1,0 +1,161 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+/* General Styles */
+body {
+    font-family: 'Libre Baskerville', serif;
+    background: url('/static/images/admin_bg.jpg') no-repeat center center/cover;
+    background-color: #121212;
+    margin: 0;
+    padding: 0;
+    color: white;
+    text-align: center;
+}
+
+/* Profile Container */
+.profile-container {
+    width: 50%;
+    margin: 60px auto;
+    background: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    backdrop-filter: blur(10px);    padding: 30px;
+    border-radius: 15px; /* Increased border radius */
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Profile Heading */
+h1 {
+    color: #00ffff;
+    margin-bottom: 20px;
+    font-size: 26px;
+}
+
+/* Profile Info */
+.profile-info {
+    text-align: left;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.profile-info p {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #ddd;
+}
+
+/* Highlight strong text */
+.profile-info strong {
+    color: #00ffff;
+}
+
+/* Profile Actions */
+.profile-actions {
+    margin-top: 20px;
+}
+
+button {
+    padding: 12px 18px;
+    background: linear-gradient(45deg, #00ffff, #0077ff);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px; /* Match button style */
+    font-size: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.05); /* Add hover scale effect */
+    box-shadow: 0px 0px 10px #00ffff;
+}
+
+/* Logout Button Style */
+.profile-actions a {
+    text-decoration: none;
+}
+
+.profile-actions button:last-child {
+    background: #ff4444;
+}
+
+.profile-actions button:last-child:hover {
+    background: #cc0000;
+    box-shadow: 0px 0px 10px #ff4444;
+}
+
+.settings-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px; /* Position the settings icon in the left top corner */
+    z-index: 1000;
+}
+
+.settings-icon img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.settings-icon img:hover {
+    transform: scale(1.1);
+}
+
+.close-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px; /* Position the close icon in the right top corner */
+    z-index: 1000;
+}
+
+.close-icon img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.close-icon img:hover {
+    transform: scale(1.1);
+}
+
+/* Profile Picture */
+.profile-picture img {
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile-picture form {
+    margin-bottom: 20px;
+}
+
+form label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}

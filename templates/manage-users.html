@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users - FactWave</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/manage_users.css') }}">
+</head>
+<body>
+    <a href="javascript:history.back()" class="close-button">
+        <img src="{{ url_for('static', filename='images/close.png') }}" alt="Close">
+    </a>
+    <div class="manage-users-container">
+        <h1>Manage Users</h1>
+        
+        <!-- Buttons for Add and Remove User -->
+        <div class="action-buttons">
+            <button onclick="window.location.href='/add-user'">Add User</button>
+        </div>
+
+        <!-- List of users (to remove) will be displayed here -->
+        <div class="user-list">
+            <h2>Existing Users</h2>
+            <ul>
+                {% for user in users %}
+                    <li>
+                        <span>{{ user.username }}</span> 
+                        <a href="{{ url_for('delete_user', user_id=user['_id']) }}">Delete</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

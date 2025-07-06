@@ -1,0 +1,19 @@
+/* Removed close-icon styles */
+
+.close-button {
+    position: fixed;
+    top: 5px; /* Adjusted for top-right most positioning */
+    right: 5px; /* Adjusted for top-right most positioning */
+    width: 15px; /* Smaller size */
+    height: 15px; /* Smaller size */
+    background: url('static/images/close.png') no-repeat center center;
+    background-size: contain; /* Ensure the image fits within the button */
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.close-button:hover {
+    transform: scale(1.2); /* Slightly increase size on hover */
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FactWave</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
+    <script src="{{ url_for('static', filename='js/admin_dashboard.js') }}" defer></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Profile Icon -->
+        <div class="profile-icon" onclick="window.location.href='/profile'">
+            <img src="{{ url_for('static', filename='images/profile.jpeg') }}" alt="Profile">
+        </div>
+
+        <h1>Admin Dashboard</h1>
+        
+        <div class="dashboard-item">
+            <h2>Manage Users</h2>
+            <p>Manage all user-related tasks</p>
+            <button onclick="window.location.href='/manage-users'">Go to Users</button>
+        </div>
+        <div class="dashboard-item">
+            <h2>Manage Database</h2>
+            <p>Perform database related tasks</p>
+            <button onclick="window.location.href='/manage-facts'">Go to Database</button>
+        </div>
+        <div class="dashboard-item">
+            <h2>Settings</h2>
+            <p>Configure settings</p>
+            <button onclick="window.location.href='/settings'">Go to Settings</button>
+        </div>
+        <div class="dashboard-item">
+            <h2>Your Profile</h2>
+            <p>View your profile</p>
+            <button onclick="window.location.href='/profile'">Go to Profile</button>
+        </div>
+
+        <footer>
+            <div class="footer-container">
+                <button onclick="window.location.href='/logout'">Logout</button>
+            </div>
+        </footer>    
+    </div>
+</body>
+</html>

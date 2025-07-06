@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile - FactWave</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+<body>
+    <!-- Settings Icon -->
+    <div class="settings-icon">
+        <a href="{{ url_for('settings') }}">
+            <img src="{{ url_for('static', filename='images/settings.png') }}" alt="Settings" title="Settings">
+        </a>
+    </div>
+    <!-- Close Icon -->
+    <div class="close-icon" onclick="window.history.back()">
+        <img src="{{ url_for('static', filename='images/close.png') }}" alt="Close" title="Close Page">
+    </div>
+    <div class="profile-container">
+        <h1>Profile - {{ user.username }}</h1>
+
+        <div class="profile-picture">
+            <img src="{{ user.profile_picture or url_for('static', filename='images/default_profile.png') }}" alt="Profile Picture" width="150">
+            <form action="/upload-profile-picture" method="POST" enctype="multipart/form-data">
+                <input type="file" name="profile_picture" accept="image/*">
+                <button type="submit">Upload Picture</button>
+            </form>
+        </div>
+
+        <div class="profile-info">
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Role:</strong> {{ user.role }}</p>
+            <!-- Add more fields as needed (e.g., first name, last name, etc.) -->
+        </div>
+
+        <form action="/update-profile" method="POST">
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" name="phone" value="{{ user.phone or '' }}">
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address">{{ user.address or '' }}</textarea>
+
+            <button type="submit">Save Changes</button>
+        </form>
+
+        <div class="profile-actions">
+            <button onclick="window.location.href='/edit-profile'">Edit Profile</button>
+            <a href="{{ url_for('logout') }}"><button>Logout</button></a>
+        </div>
+    </div>
+</body>
+</html>

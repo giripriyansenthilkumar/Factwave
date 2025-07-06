@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Transcription - FactWave</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <script src="{{ url_for('static', filename='js/live_transcription.js') }}" defer></script>
+</head>
+<body>
+    <h1>Live Transcription</h1>
+    <div>
+        <h2>Transcription:</h2>
+        <p id="transcription-output">Listening...</p>
+    </div>
+    <div>
+        <h2>Fact Check:</h2>
+        <p id="fact-check-output">Waiting for transcription...</p>
+    </div>
+</body>
+</html>

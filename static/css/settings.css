@@ -1,0 +1,179 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+/* General Styles */
+body {
+    font-family: 'Libre Baskerville', serif;
+    background: url('/static/images/admin_bg.jpg') no-repeat center center/cover;
+    background-color: #121212; /* Default Dark theme background */
+    margin: 0;
+    padding: 0;
+    color: white;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Smooth transition */
+}
+
+/* Light Theme */
+body.light-theme {
+    background-color: #f4f4f4;
+    color: #121212;
+}
+
+body.light-theme .settings-container {
+    background: rgba(255, 255, 255, 0.9); /* Light theme container background */
+    backdrop-filter: blur(10px);
+}
+
+body.light-theme h1, body.light-theme h2 {
+    color: #0077ff; /* Light theme headings */
+}
+
+body.light-theme .setting-item {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Settings Wrapper */
+.settings-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+/* Settings Container */
+.settings-container {
+    width: 60%; /* Adjusted for better responsiveness */
+    max-width: 900px; /* Ensure it doesn't stretch too much */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px); /* Match glassmorphism effect */
+    padding: 30px;
+    border-radius: 15px; /* Increased border radius */
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: left;
+    overflow-y: auto; /* Handle large content */
+}
+
+/* Headings */
+h1 {
+    color: #00ffff;
+    text-align: center;
+    font-size: 32px; /* Larger for better visibility */
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #00cccc;
+    font-size: 24px; /* Larger for better visibility */
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+/* Setting Item */
+.setting-item {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px; /* Increased margin */
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+/* Form Fields */
+.form-group {
+    margin-bottom: 20px; /* Increased for spacing */
+    padding: 10px 0; /* Vertical padding for each group */
+}
+
+label {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 8px; /* Increased margin */
+    color: #ddd;
+}
+
+select {
+    width: 100%;
+    padding: 12px; /* Increased padding for comfort */
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: 1px solid #00cccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 20px; /* Adjusted margin */
+    text-align: center;
+}
+
+/* Checkboxes */
+input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 14px; /* Increased padding for button */
+    background: linear-gradient(45deg, #00ffff, #0077ff);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px; /* Match button style */
+    font-size: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 15px; /* Adjusted margin */
+}
+
+button:hover {
+    transform: scale(1.05); /* Add hover scale effect */
+    box-shadow: 0px 0px 10px #00ffff;
+}
+
+/* Save Button */
+.save-btn {
+    margin-top: 20px;
+    background: #00ff99;
+}
+
+.save-btn:hover {
+    background: #00cc77;
+    box-shadow: 0px 0px 10px #00ff99;
+}
+
+/* Logout Button */
+button.logout-btn {
+    background: #ff4444;
+}
+
+button.logout-btn:hover {
+    background: #cc0000;
+    box-shadow: 0px 0px 10px #ff4444;
+}
+
+/* Responsive Styles */
+@media (max-width: 1768px) {
+    .settings-container {
+        width: 100%; 
+        padding: 40px/* Ensure it fits on smaller screens */
+    }
+
+    h1 {
+        font-size: 28px; /* Adjust heading size */
+    }
+
+    h2 {
+        font-size: 20px; /* Adjust heading size */
+    }
+
+    .setting-item {
+        margin-bottom: -30px; /* Reduced spacing on smaller screens */
+    }
+
+    select {
+        font-size: 14px; /* Smaller font size for dropdown */
+    }
+
+    button {
+        padding: 12px; /* Adjust button size */
+    }
+}

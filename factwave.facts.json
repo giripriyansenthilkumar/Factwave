@@ -1,0 +1,21 @@
+[{
+  "_id": {
+    "$oid": "67781549d6bb58606259bdd2"
+  },
+  "category": "GENERAL",
+  "description": "\"Global leaders signed a landmark climate deal to cut emissions by 2030. The agreement focuses on renewable energy and sustainable practices. UN Secretary-General hailed it as a step toward saving the planet. Critics argue that implementation plans are vague. The deal aims to limit global warming to 1.5°C.\""
+},
+{
+  "_id": {
+    "$oid": "6778155fd6bb58606259bdd3"
+  },
+  "category": "GENERAL",
+  "description": "\"Scientists have developed a new therapy showing 90% success in trials. It uses personalized medicine to target cancer cells precisely. The breakthrough offers hope for patients with rare cancers. Experts believe this could revolutionize cancer care globally. The therapy will undergo further trials before public availability.\""
+},
+{
+  "_id": {
+    "$oid": "677815afd6bb58606259bdd4"
+  },
+  "category": "GENERAL",
+  "description": "\"A leading tech company launched its first foldable smartphone today. The device features a 7.6-inch screen and innovative hinge design. Priced at $1,500, it's aimed at premium market segments. Critics praise its innovation but question its durability. Pre-orders begin next week with delivery in February.\""
+}]

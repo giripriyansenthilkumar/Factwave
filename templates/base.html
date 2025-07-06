@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Facts - FactWave</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/manage_facts.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/notifications.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <script src="{{ url_for('static', filename='js/manage_facts.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/notifications.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/responsive.js') }}" defer></script>
+</head>
+<body class="{{ session['theme'] if 'theme' in session else 'dark' }}">
+    <header>
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <a href="/">FactWave</a>
+            </div>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul class="navbar-menu">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/analytics">Analytics</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <!-- Notification Container -->
+        <div id="notification" class="notification hidden">
+            <span class="notification-icon"></span>
+            <span class="notification-message"></span>
+            <div class="notification-actions">
+                <button class="dismiss-btn" onclick="dismissNotification()">Dismiss</button>
+                <button class="snooze-btn" onclick="snoozeNotification()">Snooze</button>
+            </div>
+        </div>
+        <!-- Include global JavaScript -->
+        <script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
+        <div class="facts-container">
+            <h1>Manage Facts</h1>
+
+            <!-- Add Fact Form -->
+            <div class="add-fact">
+                <h2>Add Fact</h2>
+                <form id="addFactForm" method="POST" action="/add-fact">
+                    <label for="category">Category:</label>
+                    <input type="text" id="category" name="category" required>
+                    
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="4" required></textarea>
+                    
+                    <button type="submit">Add Fact</button>
+                </form>
+            </div>
+
+            <!-- Upload CSV Form -->
+            <div class="upload-csv">
+                <h2>Upload Facts via CSV</h2>
+                <form id="uploadCsvForm" method="POST" action="/upload-csv" enctype="multipart/form-data">
+                    <label for="csvFile">Choose CSV File:</label>
+                    <input type="file" id="csvFile" name="csv_file" accept=".csv" required>
+                    <button type="submit" id="uploadCsvButton">Upload</button>
+                </form>
+            </div>
+
+            <!-- Facts Table -->
+            <div class="facts-list">
+                <h2>Existing Facts</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fact in facts %}
+                        <tr>
+                            <td>{{ fact.category }}</td>
+                            <td>{{ fact.description }}</td>
+                            <td>
+                                <button class="edit-button" onclick="editFact('{{ fact._id }}', '{{ fact.category }}', '{{ fact.description }}')">Edit</button>
+                                <form method="POST" action="/delete-fact/{{ fact._id }}" class="inline-form">
+                                    <button type="submit" class="delete-button">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Edit Fact Modal -->
+        <div id="editFactModal" class="modal">
+            <div class="modal-content">
+                <h2>Edit Fact</h2>
+                <form id="editFactForm" method="POST" action="/edit-fact">
+                    <input type="hidden" id="editFactId" name="fact_id">
+                    
+                    <label for="editCategory">Category:</label>
+                    <input type="text" id="editCategory" name="category" required>
+                    
+                    <label for="editDescription">Description:</label>
+                    <textarea id="editDescription" name="description" rows="4" required></textarea>
+                    
+                    <button type="submit">Save Changes</button>
+                    <button type="button" class="close-modal" onclick="closeEditModal()">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
